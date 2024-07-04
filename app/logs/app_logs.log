@@ -1,0 +1,2 @@
+2024-07-03 07:08:38,106 - log_handler - INFO - Connection established, mysql log data: defaultdict(<class 'dict'>, {'ip': '172.18.0.4', 'host': '1b8dffc29389', 'db': 'decoya'})
+2024-07-03 07:08:38,167 - log_handler - INFO - Query executed: SELECT * FROM users

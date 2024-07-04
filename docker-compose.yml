@@ -1,0 +1,100 @@
+version: "3"
+
+services:
+  db:
+    image: mysql:latest
+    build: 
+      context: /decoya
+      dockerfile: ./db/Dockerfile
+      target: mysql_deploy
+    container_name: mysql
+    ports:
+      - "3306:3306"
+    env_file:
+      - .env
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./db:/decoya/db
+    # healthcheck:
+    #   test: ['CMD-SHELL', 'mysqladmin ping -h ${MYSQL_HOST} --password=${MYSQL_ROOT_PASSWORD}) --silent']
+    #   interval: 3s
+    #   retries: 5
+    #   start_period: 30s
+    restart: always
+    networks:
+      - decoyanetwork
+  app:
+    build: ./app
+    image: ubuntu:latest
+    container_name: app
+    # command: tail -f /dev/null
+    ports:
+      - "2222:22"
+    env_file:
+      - .env
+    volumes:
+      - ./app:/decoya/app
+    networks:
+      - decoyanetwork
+    depends_on:
+      - db
+  ########################################################################################################
+  # Bonus challange part - write both in python and bash. Another bash solution in ./db/ & /app/ Dockerfile
+  ######################################################################################################## 
+  # Kept one for simplicity on install 
+  create-table:
+    # build: ./db
+    build: 
+      context: ./db
+      dockerfile: ./Dockerfile
+      target: create_users_table
+
+    # image: python:latest
+    container_name: create_table
+    env_file:
+      - .env
+    volumes:
+      - ./db:/db
+    networks:
+      - decoyanetwork
+    depends_on:
+      - db
+    entrypoint: ["python3", "/db/create_users_table.py"]
+  
+  # insert-data:
+  #   build: ./app
+  #   container_name: insert_data
+  #   env_file:
+  #     - .env
+  #   volumes:
+  #     - ./app:/app
+  #   networks:
+  #     - decoyanetwork
+  #   depends_on:
+  #     - db
+  #   entrypoint: ["python3", "/app/create_user.py"]
+
+  # read-data:
+  #  build: ./app
+  #  container_name: read_data
+  #  env_file:
+  #    - .env
+  #  volumes:
+  #    - ./app:/app
+  #  networks:
+  #    - decoyanetwork
+  #  depends_on:
+  #    - db
+  #  entrypoint: ["python3", "/app/read_users.py"]
+
+#secrets:
+#  db-password:
+#    file: db/password.txt
+
+
+volumes:
+  mysql_data:
+
+networks:
+  decoyanetwork:
+    driver: bridge

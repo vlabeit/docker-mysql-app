@@ -1,33 +1,23 @@
 #!bin/bash
 
-echo "Starting script..."
+echo "Starting virtual machine script..."
 
 # Determine current directory of the script
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-# Define other variables
-# VM_USER="user"
-# VM_HOST="localhost"
-# VM_PORT="2222"
-# VM_DESTINATION="/home/user/decoya"
-
-
-VM_USER="root"
-VM_HOST="185.97.144.247"
-VM_PORT="22"
+# Copy files from host to virtual machine
+Define other variables
+VM_USER="user"
+VM_HOST="localhost"
+VM_PORT="2222"
 VM_DESTINATION="/decoya"
 
-
 ssh $VM_USER@$VM_HOST -p $VM_PORT 'mkdir -p /decoya'
-
-
-# Execute scp command
-
 scp -P $VM_PORT -r "$SCRIPT_DIR"/* $VM_USER@$VM_HOST:$VM_DESTINATION
-# scp -p 2222 -r . vladi@localhost:/decoya
-
 ssh $VM_USER@$VM_HOST -p $VM_PORT  'mv /decoya/env_example.txt /decoya/.env'
 
+
+# Still on work - to do automate vm create.
 
 function load_vm() {
     echo "importing vm (to do), you can exit now and create vbox menually"

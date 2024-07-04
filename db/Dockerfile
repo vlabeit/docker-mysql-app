@@ -25,6 +25,8 @@ RUN echo "[mysqld]" > /etc/mysql/conf.d/ssl.cnf \
     && echo "ssl-cert=/etc/mysql/mysql-cert.pem" >> /etc/mysql/conf.d/ssl.cnf \
     && echo "ssl-key=/etc/mysql/mysql-key.pem" >> /etc/mysql/conf.d/ssl.cnf
 
+# RUN bash create_users_table.sh
+
 ########################################################################
 # Create user table container
 from python:3.9-slim as create_users_table

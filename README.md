@@ -17,7 +17,7 @@ All functionality is implemented using Bash and Python scripts.
     - `mysql_data` for MySQL data.
     - Paths mounted for application files and logs.
 
-### Step 1 - Running `run_vm` Script
+### Step 1 - Running `install` Script
 
 follow these steps: 
 ```

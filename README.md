@@ -25,12 +25,17 @@ git clone https://github.com/vlabeit/docker-mysql-app.git
 ```
 
 - **On Windows:**
-  1. Download VirtualBox.
-  2. Start the VM using the provided OVA file.
-  3. Run `./run_vm.sh`.
-     - Copies application files to the VirtualBox host.
-     - Installs OpenSSH.
-     - Sets up port forwarding.
+  Run cmd in powershell as admin:
+  ```
+  ./install.ps1
+  ```
+  This will:
+  1. Install VirtualBox and other dependencies.
+  2. Import vm from ova file after unzipping it.
+  3. Fetching new vm IP.
+  4. Generating ssh key
+  5. Copy app files from host to vm.
+  6. Create mysql SSL
 
 - **On Linux:**
   1. Download VirtualBox.
@@ -40,17 +45,21 @@ git clone https://github.com/vlabeit/docker-mysql-app.git
      - Installs OpenSSH.
      - Configures port forwarding.
 
-### Step 2 - Running `run_app` Script
+### Step 2 - Starting Docker and app
 
 This script connects via SSH to the local VirtualBox Docker container.
-
+```
+bash ~/decoya/app/scripts/run_app.sh
+```
 - **Start App Script:**
   - Select an option:
     0. Start Docker.
-    1. Create User (Bash).
-    2. Create User (Python).
-    3. List Users (Bash).
-    4. List Users (Python).
+    1. Create and start cron job
+    2. Show mysql SSL
+    3. Create User (Bash).
+    4. Create User (Python).
+    5. List Users (Bash).
+    6. List Users (Python).
 
 ### Bonus Features
 
@@ -73,5 +82,9 @@ This script connects via SSH to the local VirtualBox Docker container.
     2024-07-03 07:08:38,106 - log_handler - INFO - Connection established, mysql log data: defaultdict(<class 'dict'>, {'ip': '172.18.0.4', 'host': '1b8dffc29389', 'db': 'decoya'})
     2024-07-03 07:08:38,167 - log_handler - INFO - Query executed: SELECT * FROM users
     ```
+
+- **crontab:**
+  - crontab created to run data_read and save to log every day at 00:00.
+
 
 This readme provides a structured overview of your Docker MySQL application, making it easier for users to understand and use your project on GitHub.

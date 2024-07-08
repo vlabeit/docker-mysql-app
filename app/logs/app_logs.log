@@ -1,2 +1,9 @@
 2024-07-03 07:08:38,106 - log_handler - INFO - Connection established, mysql log data: defaultdict(<class 'dict'>, {'ip': '172.18.0.4', 'host': '1b8dffc29389', 'db': 'decoya'})
 2024-07-03 07:08:38,167 - log_handler - INFO - Query executed: SELECT * FROM users
+2024-07-04 04:23:19,879 - log_handler - INFO - Connection established, mysql log data: defaultdict(<class 'dict'>, {'ip': '172.19.0.4', 'host': 'f61d4cca6de1', 'db': 'decoya'})
+2024-07-04 04:23:19,959 - log_handler - INFO - Query executed: INSERT INTO users (name, age) VALUES ('jkhkj', 54)
+2024-07-04 04:23:32,635 - log_handler - INFO - Connection established, mysql log data: defaultdict(<class 'dict'>, {'ip': '172.19.0.4', 'host': 'f61d4cca6de1', 'db': 'decoya'})
+2024-07-04 04:23:32,663 - log_handler - INFO - Query executed: INSERT INTO users (name, age) VALUES ('ytyu', 12)
+2024-07-04 04:24:34,847 - log_handler - INFO - Connection established, mysql log data: defaultdict(<class 'dict'>, {'ip': '172.19.0.4', 'host': 'f61d4cca6de1', 'db': 'decoya'})
+2024-07-04 04:24:34,914 - log_handler - INFO - Query executed: SELECT * FROM users
+2024-07-04 04:29:22,780 - log_handler - INFO - Connection established, mysql log data: defaultdict(<class 'dict'>, {'ip': '172.19.0.4', 'host': 'a8b13332cd86', 'db': 'decoya'})

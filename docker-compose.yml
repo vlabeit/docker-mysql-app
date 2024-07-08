@@ -2,95 +2,68 @@ version: "3"
 
 services:
   db:
-    image: mysql:latest
-    build: 
-      context: /decoya
-      dockerfile: ./db/Dockerfile
-      target: mysql_deploy
+    image: mysql:8.4
     container_name: mysql
     ports:
       - "3306:3306"
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_ROOT_PASSWORD: pass123
+      MYSQL_ROOT_USER: root
     env_file:
       - .env
     volumes:
       - mysql_data:/var/lib/mysql
-      - ./db:/decoya/db
-    # healthcheck:
-    #   test: ['CMD-SHELL', 'mysqladmin ping -h ${MYSQL_HOST} --password=${MYSQL_ROOT_PASSWORD}) --silent']
-    #   interval: 3s
-    #   retries: 5
-    #   start_period: 30s
+      - ./db:/home/user/decoya/db
+      - ./db/ssl:/etc/mysql/
     restart: always
     networks:
       - decoyanetwork
   app:
     build: ./app
-    image: ubuntu:latest
+    image: ubuntu:24.04
+    working_dir: /home/user/decoya
     container_name: app
     # command: tail -f /dev/null
     ports:
       - "2222:22"
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_ROOT_PASSWORD: pass123
+      MYSQL_ROOT_USER: root
     env_file:
       - .env
     volumes:
-      - ./app:/decoya/app
+      - ./app:/home/user/decoya/app
     networks:
       - decoyanetwork
     depends_on:
       - db
+
   ########################################################################################################
   # Bonus challange part - write both in python and bash. Another bash solution in ./db/ & /app/ Dockerfile
   ######################################################################################################## 
   # Kept one for simplicity on install 
   create-table:
-    # build: ./db
-    build: 
-      context: ./db
-      dockerfile: ./Dockerfile
-      target: create_users_table
-
-    # image: python:latest
+    image: python:latest
     container_name: create_table
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_ROOT_PASSWORD: pass123
+      MYSQL_ROOT_USER: root
     env_file:
       - .env
     volumes:
-      - ./db:/db
+      - /home/user/decoya/db/create_users_table.py:/home/user/decoya/create_users_table.py
     networks:
       - decoyanetwork
     depends_on:
       - db
-    entrypoint: ["python3", "/db/create_users_table.py"]
-  
-  # insert-data:
-  #   build: ./app
-  #   container_name: insert_data
-  #   env_file:
-  #     - .env
-  #   volumes:
-  #     - ./app:/app
-  #   networks:
-  #     - decoyanetwork
-  #   depends_on:
-  #     - db
-  #   entrypoint: ["python3", "/app/create_user.py"]
-
-  # read-data:
-  #  build: ./app
-  #  container_name: read_data
-  #  env_file:
-  #    - .env
-  #  volumes:
-  #    - ./app:/app
-  #  networks:
-  #    - decoyanetwork
-  #  depends_on:
-  #    - db
-  #  entrypoint: ["python3", "/app/read_users.py"]
-
-#secrets:
-#  db-password:
-#    file: db/password.txt
-
+    command: >
+      bash -c "python3 -m venv /venv &&
+              source /venv/bin/activate &&
+              pip install mysql-connector-python &&
+              python /home/user/decoya/create_users_table.py"
 
 volumes:
   mysql_data:

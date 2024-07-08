@@ -1,9 +1,8 @@
 FROM mysql:latest as mysql_deploy
-WORKDIR /decoya/
+WORKDIR /home/user/decoya
 
 COPY ./db ./db
-COPY .env .env
-COPY run_app.sh run_app.sh
+
 RUN  chmod +x ./db/create_users_table.sh
 
 #######################################################################
@@ -32,6 +31,6 @@ RUN echo "[mysqld]" > /etc/mysql/conf.d/ssl.cnf \
 from python:3.9-slim as create_users_table
 RUN apt-get update && apt-get install --no-install-recommends -y default-mysql-client
 
-WORKDIR /decoya/
+WORKDIR /home/user/decoya
 
 RUN pip install mysql-connector-python

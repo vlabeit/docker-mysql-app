@@ -9,10 +9,10 @@ def data_read():
         mysql_data = mysql_log()
 
         conn = mysql.connector.connect(
-            host=os.getenv('MYSQL_HOST'),
-            user=os.getenv('MYSQL_ROOT_USER'),
-            password=os.getenv('MYSQL_ROOT_PASSWORD'),
-            database=os.getenv('MYSQL_DATABASE'),
+            host=os.environ.get('MYSQL_HOST'),
+            user=os.environ.get('MYSQL_ROOT_USER'),
+            password=os.environ.get('MYSQL_ROOT_PASSWORD'),
+            database=os.environ.get('MYSQL_DATABASE'),
         )
         cursor = conn.cursor()
         insert_query = f"SELECT * FROM users"

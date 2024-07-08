@@ -3,15 +3,15 @@ import os
 import time
 
 time.sleep(20)
-
+# Creating user table if does not exsist
 def create_table():
     """Creating users tabale if doesnt exsist"""
     try:
         conn = mysql.connector.connect(
-            host=os.getenv('MYSQL_HOST'),
-            user=os.getenv('MYSQL_ROOT_USER'),
-            password=os.getenv('MYSQL_ROOT_PASSWORD'),
-            database=os.getenv('MYSQL_DATABASE')
+            host=os.environ.get('MYSQL_HOST'),
+            user=os.environ.get('MYSQL_ROOT_USER'),
+            password=os.environ.get('MYSQL_ROOT_PASSWORD'),
+            database=os.environ.get('MYSQL_DATABASE')
         )
         cursor = conn.cursor()
         cursor.execute('''

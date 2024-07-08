@@ -3,7 +3,7 @@ import logging
 import socket
 from collections import defaultdict
 
-logging.basicConfig(filename='/decoya/app/logs/app_logs.log', level=logging.INFO, 
+logging.basicConfig(filename='/home/user/decoya/app/logs/app_logs.log', level=logging.INFO, 
                     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 

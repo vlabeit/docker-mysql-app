@@ -1,13 +1,9 @@
 #!/bin/bash
 
-set -o errexit
-set -o pipefail
-set -o nounset
-
-if [ -z "$MYSQL_HOST" ] || [ -z "$MYSQL_USER" ] || [ -z "$MYSQL_ROOT_PASSWORD" ] || [ -z "$MYSQL_DATABASE" ]; then
-    echo "Required variables not found in .env file."
-    exit 1
-fi
+# if [ -z "$MYSQL_HOST" ] || [ -z "$MYSQL_ROOT_USER" ] || [ -z "$MYSQL_ROOT_PASSWORD" ] || [ -z "$MYSQL_DATABASE" ]; then
+#     echo "Required variables not found in .env file."
+#     exit 1
+# fi
 
 # Function to validate age (must be a number)
 age_validation() {
@@ -41,6 +37,6 @@ read age
 age_validation "$age"
 
 # Insert age and name from input to db
-mysql -h "$MYSQL_HOST" -u "$MYSQL_USER" -p"$MYSQL_ROOT_PASSWORD" "$MYSQL_DATABASE" <<EOF
+mysql -h "$MYSQL_HOST" -u "$MYSQL_ROOT_USER" -p"$MYSQL_ROOT_PASSWORD" "$MYSQL_DATABASE" <<EOF
 INSERT INTO users (name, age) VALUES ('$name', $age);
 EOF

@@ -29,13 +29,13 @@ git clone https://github.com/vlabeit/docker-mysql-app.git
   ```
   ./install.ps1
   ```
-  This will:
+**  This will:
   1. Install VirtualBox and other dependencies.
   2. Import vm from ova file after unzipping it.
   3. Fetching new vm IP.
   4. Generating ssh key
   5. Copy app files from host to vm.
-  6. Create mysql SSL
+  6. Create mysql SSL**
 
 - **On Linux:**
   1. Download VirtualBox.

@@ -1,51 +1,77 @@
-Docker example with python and bash.
+# Docker MySQL App
 
-Step 0 – Under the hood
-•	All functions in this code implemented in bash and python.
-Docker-compose db – 2 scripts that run when container created:
-Python –created new container named "create-table" container with script in python to create "users_py" table
-bash – created on docker RUN
-•	Data mount.
-All data mounted with persistent storage with volums.
-mysql_data volume for mysql data
-Path mount with other files (app files and logs)
+## Overview
 
-Step 1 - running run_vm script
+This project demonstrates Docker usage with Python and Bash scripts to manage a MySQL application. It includes features like data persistence, SSH setup, MySQL SSL configuration, and logging.
+
+### Step 0 – Under the Hood
+
+All functionality is implemented using Bash and Python scripts.
+
+- **Docker-Compose db:**
+  - **Python:** Creates a new container named "create-table" with a Python script (`create-table.py`) to initialize a "users_py" table.
+  - **Bash:** Executes during Docker container creation, handling initial setup.
+
+- **Data Mount:**
+  - Utilizes persistent storage with volumes:
+    - `mysql_data` for MySQL data.
+    - Paths mounted for application files and logs.
+
+### Step 1 - Running `run_vm` Script
+
+follow these steps: 
+```
 git clone https://github.com/vlabeit/docker-mysql-app.git
+```
 
-•	On windows
-  download virtual box and start vm from the provided ova file.
-./run_vm.sh
-This script will copy all files app to virtual host, install OpenSSH, forward ports and more .
-•	On Linux
-download virtual box and start vm from the provided ova file.
-or / and
-./run_vm.sh
-This script will copy all files from host to machine if created or create / import new vm on VirtualBox , install OpenSSH, forward ports and more  // not fully completed.
+- **On Windows:**
+  1. Download VirtualBox.
+  2. Start the VM using the provided OVA file.
+  3. Run `./run_vm.sh`.
+     - Copies application files to the VirtualBox host.
+     - Installs OpenSSH.
+     - Sets up port forwarding.
 
-Step 2 - running run_app script
-This script connects with ssh to local VirtualBox docker container.
-	Start app script...
-Enter a number to continue
-0. Start Docker
-1. Create User sh
-2. Create User py
-3. List users sh
-4. List users py
-Enter your selection:
+- **On Linux:**
+  1. Download VirtualBox.
+  2. Start the VM using the provided OVA file or create/import a new VM in VirtualBox.
+  3. Run `./run_vm.sh`.
+     - Copies application files to the VM.
+     - Installs OpenSSH.
+     - Configures port forwarding.
 
-Bonus! 😊
-•	Mysql SSL can be created with db/ db/create_ssl_keys.sh or using
-openssl req -x509 -nodes -newkey rsa:4096 -keyout mysql-key.pem -out mysql-cert.pem -days 365
+### Step 2 - Running `run_app` Script
 
-and RUN echo "[mysqld]" > /etc/mysql/conf.d/ssl.cnf \
-    && echo "ssl-ca=/etc/mysql/mysql-cert.pem" >> /etc/mysql/conf.d/ssl.cnf \
-    && echo "ssl-cert=/etc/mysql/mysql-cert.pem" >> /etc/mysql/conf.d/ssl.cnf \
-    && echo "ssl-key=/etc/mysql/mysql-key.pem" >> /etc/mysql/conf.d/ssl.cnf
+This script connects via SSH to the local VirtualBox Docker container.
 
-•	Logs – logs of every mysql request logged to persistent folder app/logs
+- **Start App Script:**
+  - Select an option:
+    0. Start Docker.
+    1. Create User (Bash).
+    2. Create User (Python).
+    3. List Users (Bash).
+    4. List Users (Python).
 
-2024-07-03 07:08:38,106 - log_handler - INFO - Connection established, mysql log data: defaultdict(<class 'dict'>, {'ip': '172.18.0.4', 'host': '1b8dffc29389', 'db': 'decoya'})
-2024-07-03 07:08:38,167 - log_handler - INFO - Query executed: SELECT * FROM users
+### Bonus Features
 
+- **MySQL SSL Setup:**
+  - Use `db/create_ssl_keys.sh` or manually with OpenSSL:
+    ```
+    openssl req -x509 -nodes -newkey rsa:4096 -keyout mysql-key.pem -out mysql-cert.pem -days 365
+    ```
+  - Update MySQL configuration (`ssl.cnf`):
+    ```
+    [mysqld]
+    ssl-ca=/etc/mysql/mysql-cert.pem
+    ssl-cert=/etc/mysql/mysql-cert.pem
+    ssl-key=/etc/mysql/mysql-key.pem
+    ```
 
+- **Logging:**
+  - Logs every MySQL request to a persistent folder (`app/logs`):
+    ```
+    2024-07-03 07:08:38,106 - log_handler - INFO - Connection established, mysql log data: defaultdict(<class 'dict'>, {'ip': '172.18.0.4', 'host': '1b8dffc29389', 'db': 'decoya'})
+    2024-07-03 07:08:38,167 - log_handler - INFO - Query executed: SELECT * FROM users
+    ```
+
+This readme provides a structured overview of your Docker MySQL application, making it easier for users to understand and use your project on GitHub.
